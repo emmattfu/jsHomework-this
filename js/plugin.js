@@ -30,7 +30,7 @@ function getPriceWithDiscount() {
 const user = {
     name: 'Abraham',
     getUserName: function () {
-
+        return this.name;
     }
 };
 
@@ -77,7 +77,83 @@ const user2 = {
         getName: function(){return this.name;}
     };
 
-// user2.getName(); // undefined, точнее ошибка user2.getName is not a function у объекта user2 нет метода getName()
+user2.getName; // undefined, у объекта user2 нет метода getName()
 user2.getName = otherUser.getName; // просиходит "позычание" метода getName() из массива otherUser
 user2.getName(); // 'Abraham' "позыченый" метод возвращает user2.name
 otherUser.getName(); // 'John' метод объекта otherUser в работе
+
+//// 2 часть
+// задача № 1
+function getList() {
+    return this.list;
+}
+
+let users = {
+    length: 4,
+    list: ['Abraham', 'James', 'John', 'Steven']
+};
+
+getList(); //undefined, функция вызывается без контекста
+users.getList = getList;
+users.getList(); // вернет массив который был в обхекте users под ключем list
+getList.call(users); // тоже саоме что и users.getList
+
+// задача № 2
+let goods = {
+    priceForOne: 10,
+    goodsSum: 15,
+    getFullPrice: function getFullPrice() { return this.priceForOne * this.goodsSum;}
+};
+
+// задача № 3
+let details = {
+    priceForOne: 23,
+    goodsSum: 14
+};
+details.getFullPrice = goods.getFullPrice; // одолжили метод из объкта в задаче № 2
+details.getFullPrice(); // 322
+
+// задача № 4
+
+let sizes = {
+    width: 5,
+    height: 10
+};
+getSquare = function () {
+    return this.width * this.height;
+};
+getSquare.call(sizes); // 50
+
+// задача № 5
+let numbers = [4, 12, 0, 10, -2, 4];
+
+let minNumber = Math.min.apply(null, numbers);
+
+// задача № 6
+
+const element = {
+    height: '15px',
+    marginTop: '5px',
+    marginBottom: '5px',
+    getFullHeight: function (){
+        return parseFloat(this.height) + parseFloat(this.marginTop) + parseFloat(this.marginBottom) + 'px';
+    }
+},
+    block = {
+        height: '5px',
+        marginTop: '3px',
+        marginBottom: '3px',
+    };
+block.getFullHeight = element.getFullHeight;
+block.getFullHeight(); // '11px'
+
+
+// задача № 7
+let element2 = {
+    height: 25,
+    getHeight: function () {
+        return this.height;
+    }
+};
+
+let getElementHeight = element2.getHeight.bind(element2);
