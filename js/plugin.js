@@ -26,7 +26,7 @@ function getPriceWithDiscount() {
     return this.price * (100 - this.discount)/100;
 }
 
-// задача № 3 не готова
+// задача № 3
 const user = {
     name: 'Abraham',
     getUserName: function () {
